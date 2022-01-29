@@ -17,8 +17,7 @@ import java.util.List;
 @RequestMapping(value = "/api")
 public class CustomerController {
 
-    @Autowired
-    CustomerRepository customerRepository;
+
     @Autowired
     CustomerRepositoryNoPassword customerRepositoryNoPassword;
     @Autowired
@@ -38,7 +37,8 @@ public class CustomerController {
     }
     @RequestMapping(value = "/customerpw/{id}", method = RequestMethod.GET)
     public ResponseEntity<Customer> getCustomerPw(@PathVariable("id") Integer id) {
-        Customer customer = customerRepository.getById(id);
+
+        Customer customer = customerServices.getByIdById(id);
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
@@ -50,16 +50,19 @@ public class CustomerController {
 
     @RequestMapping(value = "/customer", method = RequestMethod.POST)
     public Customer addOne(@RequestBody Customer customer) {
-        customerRepository.save(customer);
+        //customerRepository.save(customer);
+        customerServices.saveNewCustomer (customer);
         return customer;
     }
 
     @RequestMapping(value = "/customer/{id}", method = RequestMethod.PUT)
-    public Customer updateOne(@PathVariable("id") Integer id, @RequestBody Customer c) {
-        Customer c1 = customerRepository.getById(id);
-        c1.setCustomer(c.getFirstName(), c.getLastName(), c.getEmail(), c.getPassword(),
+    public CustomerNoPassword updateOne(@PathVariable("id") Integer id, @RequestBody Customer c) {
+        CustomerNoPassword c1 = customerRepositoryNoPassword.getById(id);
+
+        c1= new CustomerNoPassword(c.getFirstName(), c.getLastName(), c.getEmail(),
                 c.getPhone(), c.getAddress(), c.getPostalCode(), c.getCity());
-        customerRepository.save(c1);
+        c1.setCustomerId(id);
+        customerRepositoryNoPassword.save(c1);
         return c1;
     }
 

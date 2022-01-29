@@ -6,18 +6,18 @@ import java.io.Serializable;
 public class OrderProductMiniID implements Serializable {
 
 
-    private Integer orderid;
+    private Integer orderId;
 
 
     private Integer productid;
 
 
-    public Integer getOrderid() {
-        return orderid;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public void setOrderid(Integer orderid) {
-        this.orderid = orderid;
+    public void setOrderId(Integer orderid) {
+        this.orderId = orderid;
     }
 
     public Integer getProductid() {

@@ -9,12 +9,30 @@ CREATE TABLE customer
   first_name  VARCHAR(50) ,
   last_name   VARCHAR(50) ,
   email      VARCHAR(50) ,
-  password VARCHAR(50) ,
   phone      VARCHAR(50) ,
   address    VARCHAR(50) ,
   postal_code VARCHAR(50) ,
   city       VARCHAR(50)
+
     );
+ALTER TABLE customer
+    ADD FOREIGN KEY (password) REFERENCES password (customer);
+/*ALTER TABLE customer
+    drop foreign key customer_ibfk_1;*/
+ALTER TABLE password
+    ADD FOREIGN KEY (id) REFERENCES customer (password);
+ALTER TABLE customer
+    ADD  password INT;
+ALTER TABLE Customer DROP COLUMN password;
+CREATE TABLE password
+(
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   password VARCHAR(50),
+   customer int,
+       FOREIGN KEY (customer) REFERENCES customer (customer_id)
+
+);
+drop table password;
 
 CREATE TABLE product
 (
@@ -66,7 +84,7 @@ INSERT INTO customer VALUES (customer_id, 'Sven', 'Svenson', 'sven@svenson.se', 
 INSERT INTO customer VALUES (customer_id, 'Thor', 'Odinson', 'thor@odinson.se', '123457', '2345245', 'Upsalagatan, 14', '24342', 'Uppsala');
 INSERT INTO customer VALUES (customer_id, 'Ivan', 'Petrov', 'ivan@petrov.se', '123458', '5543452', 'Moscowgatan, 100', '434343', 'Moscow');
 
-
+INSERT into password values ( id, 'qq6',  4);
 -- Create Product values
 INSERT INTO product VALUES (product_id, 'Skinny Jeans', '5-pocket low-rise jeans in washed stretch denim with a button fly and skinny legs.',
                             'prod1.jpg',

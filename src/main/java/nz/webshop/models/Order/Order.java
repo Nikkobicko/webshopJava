@@ -1,6 +1,7 @@
 package nz.webshop.models.Order;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import nz.webshop.models.Customer.CustomerNoPasswordOrders;
 import nz.webshop.models.OrderProduct.OrderProduct;
 
@@ -18,19 +19,46 @@ public class Order {
     private Integer Id;
 
 
-   @ManyToOne(targetEntity=CustomerNoPasswordOrders.class)
-        //@JoinColumn (name = "customer_id", referencedColumnName="customerId")
-    @JoinColumn (name = "customer_id")
-   //@Column (name = "customer_id")
-    private Integer customer_id;
+ //  @ManyToOne(targetEntity=CustomerNoPasswordOrders.class)
+ //@JoinColumn (name = "customer_id")
+// @ManyToOne(fetch = FetchType.EAGER)
 
-    @Column(name = "datum")
+/*  @Column(name = "customer_id")
+  private Integer customerId;*/
+/*
+public Order() {
+
+}
+
+    public Order(Integer id, CustomerNoPasswordOrders customer, String dateTime) {
+    Id = id;
+    this.customer = customer;
+    this.dateTime = dateTime;
+}
+*/
+
+
+
+    public CustomerNoPasswordOrders getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(CustomerNoPasswordOrders customer) {
+        this.customer = customer;
+    }
+  //  @JoinColumn(name = "customer_id", referencedColumnName="customer_id")
+    @ManyToOne(targetEntity=CustomerNoPasswordOrders.class)
+     @JsonBackReference
+    @JoinColumn(name = "customer_id", referencedColumnName="customer_id")
+   private CustomerNoPasswordOrders customer;
+
+
+   @Column(name = "datum")
     private String dateTime;
 
-   // private List<Products> products;
 
-   @OneToMany(targetEntity = OrderProduct.class, mappedBy = "order_id")
-   private List<OrderProduct> orderProduct;
+   @OneToMany(targetEntity = OrderProduct.class, mappedBy = "orderId")
+   private List<OrderProduct> products;
 
     public Integer getId() {
         return Id;
@@ -44,21 +72,21 @@ public class Order {
 
 
 
-    public List<OrderProduct> getOrderProduct() {
-        return orderProduct;
+    public List<OrderProduct> getProducts() {
+        return products;
     }
 
-    public void setOrderProduct(List<OrderProduct> orderProduct) {
-        this.orderProduct = orderProduct;
+    public void setProducts(List<OrderProduct> orderProduct) {
+        this.products = orderProduct;
     }
 
-    public Integer getCustomer_id() {
-        return customer_id;
+/*  public Integer getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer_id(Integer customer_id) {
-        this.customer_id = customer_id;
-    }
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }*/
 
     public String getDateTime() {
         return dateTime;

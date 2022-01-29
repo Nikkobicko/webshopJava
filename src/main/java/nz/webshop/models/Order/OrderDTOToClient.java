@@ -5,24 +5,36 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Table(name = "orders")
-public class OrderMini {
+import nz.webshop.models.Product.*;
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "order_id")
+
+public class OrderDTOToClient {
+
+
     private Integer Id;
 
 
 
-   @Column (name = "customer_id")
+
     private Integer customerId;
 
-    @Column(name = "datum")
+
     private String dateTime;
 
+   private List<Products> products;
 
+    public OrderDTOToClient() {
+    }
+
+    public OrderDTOToClient(Integer id, Integer customerId, String dateTime, List<Products> products) {
+        Id = id;
+        this.customerId = customerId;
+        this.dateTime = dateTime;
+        this.products = products;
+    }
+
+
+    // private List<OrderProduct> orderProduct;
 
     public Integer getId() {
         return Id;
@@ -35,6 +47,15 @@ public class OrderMini {
 
 
 
+
+
+    public List<Products> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Products> products) {
+        this.products = products;
+    }
 
     public Integer getCustomerId() {
         return customerId;

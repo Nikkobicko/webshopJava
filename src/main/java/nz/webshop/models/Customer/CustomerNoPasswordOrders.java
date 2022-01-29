@@ -1,9 +1,11 @@
 package nz.webshop.models.Customer;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import nz.webshop.models.Order.Order;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,9 +29,10 @@ public class CustomerNoPasswordOrders {
     private String postalCode;
     private String city;
 
-@OneToMany(targetEntity = nz.webshop.models.Order.Order.class, mappedBy = "customer_id")
-         //@OneToMany(mappedBy = "customer")
-  private List<Order> Order;
+    //@OneToMany(mappedBy = "customer")
+    @JsonManagedReference
+    @OneToMany(targetEntity = nz.webshop.models.Order.Order.class, mappedBy = "customer")
+    private List<Order> Order;
 
 
     public Integer getCustomerId() {

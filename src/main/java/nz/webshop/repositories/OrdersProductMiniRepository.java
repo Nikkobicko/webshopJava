@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface OrdersProductMiniRepository extends JpaRepository<OrderProductMini, OrderProductMiniID> {
 
-  List<OrderProductMini> findByOrderid(Integer id);
+  //List<OrderProductMini> findByOrderid(Integer id);
+  List<OrderProductMini> getOrderProductMinisByOrderId(Integer id);
 
 }

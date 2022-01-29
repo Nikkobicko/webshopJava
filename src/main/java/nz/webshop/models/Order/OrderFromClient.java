@@ -6,13 +6,13 @@ import java.util.List;
 
 import nz.webshop.models.Product.*;
 
-public class OrderFromJSON {
+public class OrderFromClient {
 
     private Integer customerId;
 
     private List<Products> products;
 
-    public OrderFromJSON() {
+    public OrderFromClient() {
     }
 
 

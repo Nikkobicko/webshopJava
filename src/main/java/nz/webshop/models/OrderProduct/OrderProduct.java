@@ -13,38 +13,43 @@ public class OrderProduct {
 
     @Id
     //@Column(name = "order_id")
-    @ManyToOne(targetEntity=Order.class)
-    @JoinColumn (name = "order_id")
-    private Integer order_id;
+    @ManyToOne(targetEntity = Order.class)
+    @JoinColumn(name = "order_id")
+    private Order orderId;
 
     @Id
-   // @Column(name = "product_id")
-    @ManyToOne(targetEntity=Product.class)
-    @JoinColumn (name = "product_id")
-    private Integer product_id;
+    // @Column(name = "product_id")
+    @ManyToOne(targetEntity = Product.class)
+    @JoinColumn(name = "product_id")
+    private Product productId;
 
     @Column(name = "quantity")
     private Integer quantity;
 
-    public OrderProduct(Integer order_id, Integer product, Integer quantity) {
-        this.order_id = order_id;
-        this.product_id = product;
+    public OrderProduct(Order orderId, Product product, Integer quantity) {
+        this.orderId = orderId;
+        this.productId = product;
         this.quantity = quantity;
     }
 
     public OrderProduct() {
     }
 
-
-    public Integer getOrder_id() {
-        return order_id;
+    public Order getOrderId() {
+        return orderId;
     }
 
-    public void setOrder_id(Integer order_id) {
-        this.order_id = order_id;
+    public void setOrderId(Order order) {
+        this.orderId = order;
     }
 
+    public Product getProductId() {
+        return productId;
+    }
 
+    public void setProductId(Product product) {
+        this.productId = product;
+    }
 
     public Integer getQuantity() {
         return quantity;
@@ -53,12 +58,6 @@ public class OrderProduct {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
-
-    public Integer getProduct_id() {
-        return product_id;
-    }
-
-    public void setProduct_id(Integer product_id) {
-        this.product_id = product_id;
-    }
 }
+
+

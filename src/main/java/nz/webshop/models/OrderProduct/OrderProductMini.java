@@ -10,9 +10,10 @@ public class OrderProductMini {
 
     @Id
     @Column(name = "order_id")
+    //@GeneratedValue(strategy=GenerationType.IDENTITY)
     //@ManyToOne(targetEntity=Order.class)
    // @JoinColumn (name = "orderid")
-    private Integer orderid;
+    private Integer orderId;
 
     @Id
    @Column(name = "product_id")
@@ -23,8 +24,8 @@ public class OrderProductMini {
     @Column(name = "quantity")
     private Integer quantity;
 
-    public OrderProductMini(Integer orderid, Integer product, Integer quantity) {
-        this.orderid = orderid;
+    public OrderProductMini(Integer orderId, Integer product, Integer quantity) {
+        this.orderId = orderId;
         this.productid = product;
         this.quantity = quantity;
     }
@@ -33,12 +34,12 @@ public class OrderProductMini {
     }
 
 
-    public Integer getOrderid() {
-        return orderid;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public void setOrderid(Integer orderid) {
-        this.orderid = orderid;
+    public void setOrderId(Integer orderid) {
+        this.orderId = orderid;
     }
 
 

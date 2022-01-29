@@ -1,19 +1,15 @@
 package nz.webshop.Controllers;
 
 import nz.webshop.Servers.OrderServices;
-import nz.webshop.models.Order.OrderFromJSON;
-import nz.webshop.models.Order.OrderMini;
-import nz.webshop.models.Order.OrderMiniMax;
-import nz.webshop.models.OrderProduct.OrderProductMini;
-import nz.webshop.models.Product.ProductMini;
-import nz.webshop.models.Product.Products;
+import nz.webshop.models.Order.Order;
+import nz.webshop.models.Order.OrderFromClient;
+import nz.webshop.models.Order.OrderDTOToClient;
+import nz.webshop.models.OrderProduct.OrderProduct;
 import nz.webshop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -22,10 +18,10 @@ import java.util.List;
 public class OrdersController {
 
     @Autowired
-    OrdersMiniRepository ordersMiniRepository;
+    OrdersRepository ordersRepository;
 
     @Autowired
-    OrdersProductMiniRepository ordersProductMiniRepository;
+    OrdersProductRepository ordersProductMiniRepository;
 
 
     @Autowired
@@ -33,41 +29,42 @@ public class OrdersController {
 
 
     @RequestMapping(value = "/order", method = RequestMethod.POST)
-    public OrderMini addOne(@RequestBody OrderFromJSON orderFromJSON) {
-        OrderMini order1 = orderServices.addOneOrder(orderFromJSON);
-
-        return order1;
+    @ResponseStatus(value = HttpStatus.OK)
+    public void addOne(@RequestBody OrderFromClient orderFromClient) {
+        orderServices.addOneOrder(orderFromClient);
     }
 
     @RequestMapping(value = "/order", method = RequestMethod.GET)
-    public List<OrderMini> getAll() {
-        return ordersMiniRepository.findAll();
+    public List<Order> getAll() {
+        return ordersRepository.findAll();
     }
 
     @RequestMapping(value = "/orderproduct", method = RequestMethod.GET)
-    public List<OrderProductMini> getAll1() {
+    public List<OrderProduct> getAll1() {
         return ordersProductMiniRepository.findAll();
     }
 
     @RequestMapping(value = "/orderall", method = RequestMethod.GET)
-    public List<OrderMiniMax> getAll2() {
-        ArrayList<OrderMiniMax> orderMiniMaxeList = orderServices.getMiniMaxeList();
+    //public List<OrderMiniMax> getAll2() {
+        public List<Order> getAll2() {
+        //ArrayList<OrderMiniMax> orderMiniMaxeList = orderServices.getMiniMaxeList();
+       List<Order> orderMiniMaxeList = orderServices.getMiniMaxeList();
         return orderMiniMaxeList;
     }
 
     @RequestMapping(value = "/order/customer/{id}", method = RequestMethod.GET)
-    public List<OrderMiniMax> getOrdersByCustomer(@PathVariable("id") Integer id) {
-        ArrayList<OrderMiniMax> orderMiniMaxeListId = orderServices.getMiniMaxeListId(id);
+    public List<OrderDTOToClient> getOrdersByCustomer(@PathVariable("id") Integer id) {
+        List<OrderDTOToClient> orderMiniMaxeListId = orderServices.getMiniMaxeListId(id);
         return orderMiniMaxeListId;
     }
 
 
     @RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
-    public OrderMiniMax getOneOrder(@PathVariable("id") Integer id) {
-        OrderMiniMax orderMiniMax = orderServices.getMiniMaxeOne(id);
-
-
-        return orderMiniMax;
+  //  public OrderMiniMax getOneOrder(@PathVariable("id") Integer id) {
+        public OrderDTOToClient getOneOrder(@PathVariable("id") Integer id) {
+     //   OrderMiniMax order = orderServices.getMiniMaxeOne(id);
+        OrderDTOToClient order = orderServices.getMiniMaxeOne(id);
+        return order;
     }
 
 

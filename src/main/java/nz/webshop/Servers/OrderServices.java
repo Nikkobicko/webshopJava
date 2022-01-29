@@ -1,13 +1,14 @@
 package nz.webshop.Servers;
 
-import nz.webshop.models.Order.OrderFromJSON;
-import nz.webshop.models.Order.OrderMini;
-import nz.webshop.models.Order.OrderMiniMax;
+import nz.webshop.models.Customer.CustomerNoPasswordOrders;
+import nz.webshop.models.Order.Order;
+import nz.webshop.models.Order.OrderFromClient;
+import nz.webshop.models.Order.OrderDTOToClient;
+import nz.webshop.models.OrderProduct.OrderProduct;
 import nz.webshop.models.OrderProduct.OrderProductMini;
 import nz.webshop.models.Product.ProductMini;
 import nz.webshop.models.Product.Products;
 import nz.webshop.repositories.*;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,30 +21,43 @@ import java.util.List;
 public class OrderServices {
 
     @Autowired
-    OrdersMiniRepository ordersMiniRepository;
+    OrdersRepository ordersMiniRepository;
+    @Autowired
+    OrdersRepository ordersRepository;
+
 
     @Autowired
     OrdersProductMiniRepository ordersProductMiniRepository;
+    @Autowired
+    OrdersProductRepository ordersProductRepository;
 
     @Autowired
     ProductMiniRepository productMiniRepository;
 
+    @Autowired
+    CustomerRepositoryNoPassword customerRepositoryNoPassword;
+
+    @Autowired
+    CustomerNoPasswordOrdersRepositry customerNoPasswordOrdersRepositry;
 
 
-    public OrderMini addOneOrder(OrderFromJSON orderFromJSON) {
-        OrderMini order1 = new OrderMini();
-        order1.setCustomerId(orderFromJSON.getCustomerId());
+
+    public void addOneOrder(OrderFromClient orderFromClient) {
+        Order order1 = new Order();
+     CustomerNoPasswordOrders customer = customerNoPasswordOrdersRepositry.getCustomerByCustomerId(orderFromClient.getCustomerId());
+       //order1.setCustomer(orderFromJSON.getCustomerId());
+        order1.setCustomer(customer);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         order1.setDateTime(sdf.format(new Date()));
 
-        ordersMiniRepository.save(order1);
+      ordersRepository.save(order1);
 
-        List<Products> products = orderFromJSON.getProducts();
+        List<Products> products = orderFromClient.getProducts();
 
-        for (Products pp : products) {
+       for (Products pp : products) {
             OrderProductMini opm = new OrderProductMini();
-            opm.setOrderid(order1.getId());
-            System.out.println("orderprodict orgerId: " + opm.getOrderid());
+            opm.setOrderId(order1.getId());
+            System.out.println("orderprodict orgerId: " + opm.getOrderId());
             opm.setProductid(pp.getProductId());
             System.out.println("orderprodict productId: " + opm.getProductid());
             opm.setQuantity(pp.getQuantity());
@@ -53,59 +67,69 @@ public class OrderServices {
             ordersProductMiniRepository.save(opm);
 
         }
-        return order1;
+      //return order1;
+       // return new ResponseEntity(HttpStatus.OK);
     }
 
-    public ArrayList<OrderMiniMax> getMiniMaxeList() {
+/*    public ArrayList<OrderMiniMax> getMiniMaxeList() {
         ArrayList<OrderMiniMax> orderMiniMaxeList = new ArrayList<>();
 
-        List<OrderMini> orderMinis = ordersMiniRepository.findAll();
-        for (OrderMini om : orderMinis) {
+      List<Order> orderMinis = ordersMiniRepository.findAll();
+        for (Order om : orderMinis) {
             ordersAddList(orderMiniMaxeList, om);
         }
         return orderMiniMaxeList;
+    }*/
+
+    public List<Order> getMiniMaxeList() {
+        List<Order> orderMinis = ordersRepository.findAll();
+        return orderMinis;
     }
 
-    public ArrayList<OrderMiniMax> getMiniMaxeListId(Integer id) {
-        ArrayList<OrderMiniMax> orderMiniMaxeListId = new ArrayList<>();
-
-        List<OrderMini> orderMinis = ordersMiniRepository.findAll();
-        for (OrderMini om : orderMinis) {
-            if (om.getCustomerId() == id) {
-                ordersAddList(orderMiniMaxeListId, om);
-
-            }
+    public ArrayList<OrderDTOToClient> getMiniMaxeListId(Integer id) {
+        ArrayList<OrderDTOToClient> orderMiniMaxeListId = new ArrayList<>();
+        CustomerNoPasswordOrders customer = customerNoPasswordOrdersRepositry.getCustomerByCustomerId(id);
+      List<Order> orderMinis = customer.getOrder();
+//Order testOrder = new Order(22,customer, "575758uuit");
+//ordersMiniRepository.save(testOrder);
+//orderMinis.add(testOrder);
+        for (Order om : orderMinis) {
+            ordersAddList(orderMiniMaxeListId, om);
         }
         return orderMiniMaxeListId;
     }
 
-    public OrderMiniMax getMiniMaxeOne(Integer id) {
+    public OrderDTOToClient getMiniMaxeOne(Integer id) {
 
-        OrderMini orderMini = ordersMiniRepository.getById(id);
-        List<OrderProductMini> productsList = ordersProductMiniRepository.findByOrderid(id);
+        Order orderMini = ordersRepository.getById(id);
+
+       // List<OrderProductMini> productsList = ordersProductMiniRepository.getOrderProductMinisByOrderid(id);
+        List<OrderProduct> productsList = orderMini.getProducts();
         ArrayList<Products> products = new ArrayList<>();
 
-        for (OrderProductMini opm : productsList) {
-            products.add(new Products(opm.getProductid(), opm.getQuantity()));
-        }
-        OrderMiniMax orderMiniMax = new OrderMiniMax(orderMini.getId(), orderMini.getCustomerId(), orderMini.getDateTime(), products);
 
-       ModelMapper modelMapper = new ModelMapper();
-// user here is a prepopulated User instance
-        //UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-        return orderMiniMax;
+      //  orderMini.setProducts(orderProducts);
+
+   for (OrderProduct opm : productsList) {
+            products.add(new Products(opm.getProductId().getId(), opm.getQuantity()));
+        }
+       Integer customerId = orderMini.getCustomer().getCustomerId();
+      //  OrderMiniMax orderMiniMax = new OrderMiniMax(orderMini.getId(), orderMini.getCustomerId(), orderMini.getDateTime(), products);
+      OrderDTOToClient orderDTOToClient = new OrderDTOToClient(orderMini.getId(), customerId, orderMini.getDateTime(), products);
+        return orderDTOToClient;
     }
 
-    private void ordersAddList(ArrayList<OrderMiniMax> orderMiniMaxeListId, OrderMini om) {
+    private void ordersAddList(ArrayList<OrderDTOToClient> orderMiniMaxeListId, Order om) {
 
         Integer index = om.getId();
-        List<OrderProductMini> productsList = ordersProductMiniRepository.findByOrderid(index);
+        List<OrderProductMini> productsList = ordersProductMiniRepository.getOrderProductMinisByOrderId(index);
         ArrayList<Products> products = new ArrayList<>();
 
         for (OrderProductMini opm : productsList) {
             products.add(new Products(opm.getProductid(), opm.getQuantity()));
         }
-        orderMiniMaxeListId.add(new OrderMiniMax(om.getId(), om.getCustomerId(), om.getDateTime(), products));
+        Integer customerId = om.getCustomer().getCustomerId();
+       orderMiniMaxeListId.add(new OrderDTOToClient(om.getId(), customerId, om.getDateTime(), products));
 
     }
 }

@@ -34,7 +34,7 @@ public class Product {
     private List<Category> listOfCategories = new ArrayList<Category>();
 
     //@OneToMany(targetEntity = OrderProduct.class, mappedBy = "product")
-    @OneToMany(targetEntity = OrderProduct.class, mappedBy = "product_id")
+    @OneToMany(targetEntity = OrderProduct.class, mappedBy = "productId")
     private List<OrderProduct> orderProduct  = new ArrayList<>();
 
     public Integer getId() {

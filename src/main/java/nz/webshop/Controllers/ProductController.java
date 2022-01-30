@@ -1,16 +1,13 @@
 package nz.webshop.Controllers;
 
-import nz.webshop.Servers.ProductServices;
-import nz.webshop.models.Category.CategoryMini;
-import nz.webshop.models.Product.ProductMini;
-import nz.webshop.models.ProductCategory.ProductCategory;
+import nz.webshop.Services.ProductServices;
+import nz.webshop.models.Product.Product;
 import nz.webshop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,29 +16,29 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    ProductMiniRepository productMiniRepository;
+    ProductRepository productRepository;
     @Autowired
    private ProductServices productServices;
 
     @GetMapping(value = "/product")
-    public List<ProductMini> getAll() {
-        return productMiniRepository.findAll();
+    public List<Product> getAll() {
+        return productRepository.findAll();
     }
 
 
     @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
-    public ResponseEntity<ProductMini> getProduct(@PathVariable("id") Integer id) {
-        ProductMini product = productMiniRepository.getById(id);
+    public ResponseEntity<Product> getProduct(@PathVariable("id") Integer id) {
+        Product product = productRepository.getById(id);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
     @GetMapping(value = "/productbycategory")
-    public List<ProductMini> getProductCategoriesAll() {
-        return productMiniRepository.findAll();
+    public List<Product> getProductCategoriesAll() {
+        return productRepository.findAll();
     }
 
     @RequestMapping(value = "/productbycategory/{id}", method = RequestMethod.GET)
-    public ResponseEntity<List<ProductMini>> getProductsByCategoryID(@PathVariable("id") Integer id) {
-        List<ProductMini> products = productServices.getProducts(id);
+    public ResponseEntity<List<Product>> getProductsByCategoryID(@PathVariable("id") Integer id) {
+        List<Product> products = productServices.getProducts(id);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }

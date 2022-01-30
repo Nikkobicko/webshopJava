@@ -3,7 +3,7 @@ DROP DATABASE IF EXISTS webshop;
 CREATE DATABASE webshop;
 USE webshop;
 
-CREATE TABLE customer
+CREATE TABLE customerDTO
 (
   customer_id INT AUTO_INCREMENT PRIMARY KEY,
   first_name  VARCHAR(50) ,
@@ -15,21 +15,21 @@ CREATE TABLE customer
   city       VARCHAR(50)
 
     );
-ALTER TABLE customer
-    ADD FOREIGN KEY (password) REFERENCES password (customer);
-/*ALTER TABLE customer
+ALTER TABLE customerDTO
+    ADD FOREIGN KEY (password) REFERENCES password (customerDTO);
+/*ALTER TABLE customerDTO
     drop foreign key customer_ibfk_1;*/
 ALTER TABLE password
-    ADD FOREIGN KEY (id) REFERENCES customer (password);
-ALTER TABLE customer
+    ADD FOREIGN KEY (id) REFERENCES customerDTO (password);
+ALTER TABLE customerDTO
     ADD  password INT;
 ALTER TABLE Customer DROP COLUMN password;
 CREATE TABLE password
 (
    id INT AUTO_INCREMENT PRIMARY KEY,
    password VARCHAR(50),
-   customer int,
-       FOREIGN KEY (customer) REFERENCES customer (customer_id)
+   customerDTO int,
+       FOREIGN KEY (customerDTO) REFERENCES customerDTO (customer_id)
 
 );
 drop table password;
@@ -49,7 +49,7 @@ CREATE TABLE orders
   order_id           INT AUTO_INCREMENT PRIMARY KEY,
   customer_id INT,
   datum  VARCHAR(500),
- FOREIGN KEY (customer_id) REFERENCES customer (customer_id)
+ FOREIGN KEY (customer_id) REFERENCES customerDTO (customer_id)
 );
 
 CREATE TABLE orderproduct
@@ -80,9 +80,9 @@ CREATE TABLE productcategory
 --
 
 -- Create Custumer values
-INSERT INTO customer VALUES (customer_id, 'Sven', 'Svenson', 'sven@svenson.se', 'a123456', '3426442', 'Streatgatan, 24', '17125', 'Stockholm');
-INSERT INTO customer VALUES (customer_id, 'Thor', 'Odinson', 'thor@odinson.se', '123457', '2345245', 'Upsalagatan, 14', '24342', 'Uppsala');
-INSERT INTO customer VALUES (customer_id, 'Ivan', 'Petrov', 'ivan@petrov.se', '123458', '5543452', 'Moscowgatan, 100', '434343', 'Moscow');
+INSERT INTO customerDTO VALUES (customer_id, 'Sven', 'Svenson', 'sven@svenson.se', 'a123456', '3426442', 'Streatgatan, 24', '17125', 'Stockholm');
+INSERT INTO customerDTO VALUES (customer_id, 'Thor', 'Odinson', 'thor@odinson.se', '123457', '2345245', 'Upsalagatan, 14', '24342', 'Uppsala');
+INSERT INTO customerDTO VALUES (customer_id, 'Ivan', 'Petrov', 'ivan@petrov.se', '123458', '5543452', 'Moscowgatan, 100', '434343', 'Moscow');
 
 INSERT into password values ( id, 'qq6',  4);
 -- Create Product values

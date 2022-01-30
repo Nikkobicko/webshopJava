@@ -1,7 +1,6 @@
 package nz.webshop.Controllers;
 
-import nz.webshop.models.Category.CategoryMini;
-import nz.webshop.repositories.CategoryMiniRepository;
+import nz.webshop.models.Category.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +15,15 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     CategoryRepository categoryRepository;
-    @Autowired
-    CategoryMiniRepository categoryMiniRepository;
+
+
 
     @GetMapping(value = "")
-    public List<CategoryMini> getAll() {  return categoryMiniRepository.findAll();  }
+    public List<Category> getAll() {  return categoryRepository.findAll();  }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public ResponseEntity<CategoryMini> getCategory(@PathVariable("id") Integer id) {
-        CategoryMini category = categoryMiniRepository.getById(id);
+    public ResponseEntity<Category> getCategory(@PathVariable("id") Integer id) {
+        Category category = categoryRepository.getById(id);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
     }

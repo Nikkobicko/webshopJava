@@ -1,14 +1,17 @@
 package nz.webshop.models.Customer;
 
-
-
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import nz.webshop.models.Order.Order;
 
 import javax.persistence.*;
+import java.util.List;
 
-
+//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 @Entity
 @Table (name ="customer")
+
 public class CustomerNoPassword {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -28,10 +31,30 @@ public class CustomerNoPassword {
     private String postalCode;
     private String city;
 
+    public CustomerNoPassword() {
+    }
+
+    public CustomerNoPassword(String firstName, String lastName, String email,
+                              String phone, String address, String postalCode, String city) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+
+        this.phone = phone;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.city = city;
+    }
     //@OneToOne (targetEntity = Password.class, mappedBy = "customer")
-    @JsonManagedReference
+  //  @JsonManagedReference (value="customer-password")
     @OneToOne ( targetEntity = Password.class, mappedBy = "customer")
     private Password passwordEntity;
+
+    //  @JsonManagedReference (value="customer-order")
+    @OneToMany(targetEntity = Order.class, mappedBy = "customer")
+    private List<Order> Order;
+
+
 
     public Password getPasswordEntity() {
         return passwordEntity;
@@ -39,6 +62,14 @@ public class CustomerNoPassword {
 
     public void setPasswordEntity(Password password) {
         this.passwordEntity = password;
+    }
+
+    public List<nz.webshop.models.Order.Order> getOrder() {
+        return Order;
+    }
+
+    public void setOrder(List<nz.webshop.models.Order.Order> order) {
+        Order = order;
     }
 
     public Integer getCustomerId() {
@@ -107,30 +138,6 @@ public class CustomerNoPassword {
 
 
 
-    public CustomerNoPassword() {
-    }
 
-    public CustomerNoPassword(String firstName, String lastName, String email,
-                              String phone, String address, String postalCode, String city) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-
-        this.phone = phone;
-        this.address = address;
-        this.postalCode = postalCode;
-        this.city = city;
-    }
-    public void setCustomerNoPassword(String firstName, String lastName, String email,
-                           String phone, String address, String postalCode, String city){
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-
-        this.phone = phone;
-        this.address = address;
-        this.postalCode = postalCode;
-        this.city = city;
-    }
 
 }

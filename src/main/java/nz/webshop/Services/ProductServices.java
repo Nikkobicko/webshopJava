@@ -1,7 +1,7 @@
-package nz.webshop.Servers;
+package nz.webshop.Services;
 
 
-import nz.webshop.models.Product.ProductMini;
+import nz.webshop.models.Product.Product;
 import nz.webshop.models.ProductCategory.ProductCategory;
 import nz.webshop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,21 +14,20 @@ import java.util.List;
 public class ProductServices {
 
     @Autowired
-    ProductMiniRepository productMiniRepository;
+    ProductRepository productRepository;
     @Autowired
     ProductCategoryRepository productCategoryRepository;
 
-public List<ProductMini> getProducts (Integer id) {
+public List<Product> getProducts (Integer id) {
 
     List<ProductCategory> productCategories = productCategoryRepository.findByCategoryId(id);
 
-    List<ProductMini> products = new ArrayList<>();
+    List<Product> products = new ArrayList<>();
     Integer productId;
         for(ProductCategory pc :productCategories) {
         productId = pc.getProductId();
-        products.add(productMiniRepository.getById(productId));
+        products.add(productRepository.getById(productId));
     }
     return products;
 }
-
 }

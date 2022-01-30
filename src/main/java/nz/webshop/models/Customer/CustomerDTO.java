@@ -1,35 +1,48 @@
 package nz.webshop.models.Customer;
 
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@Entity
-@Table (name ="customer")
-public class CustomerLogin {
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "customer_id")
-    private Integer customerId;
-    @Column(name = "first_name")
-    private String firstName;
-    @Column(name = "last_name")
-    private String lastName;
-    @Column(name = "email")
-    private String email;
+public class CustomerDTO {
+
     private String password;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
     private String phone;
     private String address;
-    @Column(name = "postal_code")
+
     private String postalCode;
     private String city;
 
-
-    public Integer getCustomerId() {
-        return customerId;
+    public CustomerDTO() {
     }
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
+    public CustomerDTO(String firstName, String lastName, String email,
+                       String password, String phone, String address, String postalCode, String city) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.city = city;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -55,10 +68,6 @@ public class CustomerLogin {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getPassword() {        return password;    }
-
-   public void setPassword(String password) {        this.password = password;    }
 
     public String getPhone() {
         return phone;
@@ -92,3 +101,11 @@ public class CustomerLogin {
         this.city = city;
     }
 }
+
+
+
+
+
+
+
+

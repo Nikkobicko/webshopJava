@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface OrdersProductRepository extends JpaRepository<OrderProduct, OrderProductID> {
 
-    List<OrderProduct> getOrderProductsByOrderId(Integer id);
+    //List<OrderProduct> getOrderProductsByOrderId(Integer id);
     List<OrderProduct> getOrderProductsByOrderIdAndProductId (Integer orderId, Integer productId);
     List<OrderProduct> getOrderProductsByOrderId (Order order);
 }

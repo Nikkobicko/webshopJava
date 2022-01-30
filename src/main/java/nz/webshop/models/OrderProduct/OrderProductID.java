@@ -8,9 +8,7 @@ public class OrderProductID implements Serializable {
 
     private Integer orderId;
 
-
     private Integer productId;
-
 
     public Integer getOrderId() {
         return orderId;

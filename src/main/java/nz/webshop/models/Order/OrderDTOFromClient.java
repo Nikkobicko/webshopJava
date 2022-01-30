@@ -1,28 +1,25 @@
 package nz.webshop.models.Order;
 
 
-import java.util.Date;
 import java.util.List;
 
 import nz.webshop.models.Product.*;
 
-public class OrderFromClient {
+public class OrderDTOFromClient {
 
     private Integer customerId;
 
-    private List<Products> products;
+    private List<ProductsDTO> products;
 
-    public OrderFromClient() {
+    public OrderDTOFromClient() {
     }
 
 
-
-
-    public List<Products> getProducts() {
+    public List<ProductsDTO> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Products> products) {
+    public void setProducts(List<ProductsDTO> products) {
         this.products = products;
     }
 

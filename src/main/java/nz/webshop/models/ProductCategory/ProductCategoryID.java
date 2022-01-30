@@ -9,8 +9,6 @@ public class ProductCategoryID implements Serializable {
 
 
     private Integer productId;
-
-
     private Integer categoryId;
 
 

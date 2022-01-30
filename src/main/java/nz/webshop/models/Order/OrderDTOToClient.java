@@ -1,40 +1,27 @@
 package nz.webshop.models.Order;
 
 
-import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 import nz.webshop.models.Product.*;
 
-
 public class OrderDTOToClient {
 
-
     private Integer Id;
-
-
-
-
     private Integer customerId;
-
-
     private String dateTime;
 
-   private List<Products> products;
+    private List<ProductsDTO> products;
 
     public OrderDTOToClient() {
     }
 
-    public OrderDTOToClient(Integer id, Integer customerId, String dateTime, List<Products> products) {
+    public OrderDTOToClient(Integer id, Integer customerId, String dateTime, List<ProductsDTO> products) {
         Id = id;
         this.customerId = customerId;
         this.dateTime = dateTime;
         this.products = products;
     }
-
-
-    // private List<OrderProduct> orderProduct;
 
     public Integer getId() {
         return Id;
@@ -44,16 +31,11 @@ public class OrderDTOToClient {
         Id = id;
     }
 
-
-
-
-
-
-    public List<Products> getProducts() {
+    public List<ProductsDTO> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Products> products) {
+    public void setProducts(List<ProductsDTO> products) {
         this.products = products;
     }
 

@@ -1,12 +1,15 @@
 package nz.webshop.models.Customer;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import nz.webshop.models.Order.Order;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 public class Password {
 
     @Id
@@ -19,7 +22,7 @@ public class Password {
     //@OneToOne (targetEntity = CustomerNoPassword.class)
     @OneToOne (targetEntity = CustomerNoPassword.class, cascade = CascadeType.ALL)
     //@PrimaryKeyJoinColumn
-    @JsonBackReference
+  //  @JsonBackReference  (value="customer-password")
     @JoinColumn(name = "customer", referencedColumnName = "customer_id")
     @MapsId
     private CustomerNoPassword customer;

@@ -2,12 +2,15 @@ package nz.webshop.models.Order;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import nz.webshop.models.Customer.CustomerNoPasswordOrders;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import nz.webshop.models.Customer.CustomerNoPassword;
 import nz.webshop.models.OrderProduct.OrderProduct;
 
 import javax.persistence.*;
 import java.util.List;
-
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -39,25 +42,30 @@ public Order() {
 
 
 
-    public CustomerNoPasswordOrders getCustomer() {
+    public CustomerNoPassword getCustomer() {
         return customer;
     }
 
-    public void setCustomer(CustomerNoPasswordOrders customer) {
+    public void setCustomer(CustomerNoPassword customer) {
         this.customer = customer;
     }
   //  @JoinColumn(name = "customer_id", referencedColumnName="customer_id")
-    @ManyToOne(targetEntity=CustomerNoPasswordOrders.class)
-     @JsonBackReference
+    @ManyToOne(targetEntity=CustomerNoPassword.class)
+   // @JsonBackReference (value="customer-order")
     @JoinColumn(name = "customer_id", referencedColumnName="customer_id")
-   private CustomerNoPasswordOrders customer;
+    private CustomerNoPassword customer;
+
+
 
 
    @Column(name = "datum")
     private String dateTime;
 
 
-   @OneToMany(targetEntity = OrderProduct.class, mappedBy = "orderId")
+
+
+  //  @JsonManagedReference
+    @OneToMany(targetEntity = OrderProduct.class, mappedBy = "orderId")
    private List<OrderProduct> products;
 
     public Integer getId() {

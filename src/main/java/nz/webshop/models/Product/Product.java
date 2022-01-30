@@ -1,5 +1,8 @@
 package nz.webshop.models.Product;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import nz.webshop.models.Category.Category;
 import nz.webshop.models.OrderProduct.OrderProduct;
 
@@ -7,6 +10,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class)
+//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 @Entity
 @Table(name ="product")
 public class Product {
@@ -29,11 +34,12 @@ public class Product {
 
     @Column(name = "units_in_stock")
     private Integer unitsInStock;
-
+    @JsonManagedReference
     @ManyToMany( mappedBy = "listOfProducts")
     private List<Category> listOfCategories = new ArrayList<Category>();
 
     //@OneToMany(targetEntity = OrderProduct.class, mappedBy = "product")
+ //   @JsonManagedReference
     @OneToMany(targetEntity = OrderProduct.class, mappedBy = "productId")
     private List<OrderProduct> orderProduct  = new ArrayList<>();
 

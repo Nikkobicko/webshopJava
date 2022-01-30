@@ -1,15 +1,13 @@
 package nz.webshop.repositories;
 
-import nz.webshop.models.Customer.Customer;
 import nz.webshop.models.Customer.CustomerNoPassword;
-import nz.webshop.models.Customer.CustomerNoPasswordOrders;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface CustomerRepositoryNoPassword extends JpaRepository<CustomerNoPassword, Integer> {
+public interface CustomerNoPasswordRepository extends JpaRepository<CustomerNoPassword, Integer> {
     CustomerNoPassword getCustomerByCustomerId (Integer id);
 
   /*public static final String FIND_PRODUCTS = "SELECT product_id, product_name, description, image_url FROM product";

@@ -1,8 +1,8 @@
 package nz.webshop.Controllers;
 
-import nz.webshop.Servers.CustomerServices;
+import nz.webshop.Services.CustomerServices;
 
-import nz.webshop.models.Customer.Customer;
+import nz.webshop.models.Customer.CustomerDTO;
 import nz.webshop.models.Customer.CustomerNoPassword;
 import nz.webshop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class CustomerController {
 
 
     @Autowired
-    CustomerRepositoryNoPassword customerRepositoryNoPassword;
+    CustomerNoPasswordRepository customerNoPasswordRepository;
     @Autowired
     CustomerServices customerServices;
 
@@ -28,41 +28,41 @@ public class CustomerController {
     public String getAllTest() {return "working";}
 
     @GetMapping(value = "/customer")
-    public List<CustomerNoPassword> getAll() {return customerRepositoryNoPassword.findAll();}
+    public List<CustomerNoPassword> getAll() {return customerNoPasswordRepository.findAll();}
 
     @RequestMapping(value = "/customer/{id}", method = RequestMethod.GET)
     public ResponseEntity<CustomerNoPassword> getCustomer(@PathVariable("id") Integer id) {
-        CustomerNoPassword customer = customerRepositoryNoPassword.getById(id);
+        CustomerNoPassword customer = customerNoPasswordRepository.getById(id);
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
     @RequestMapping(value = "/customerpw/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Customer> getCustomerPw(@PathVariable("id") Integer id) {
+    public ResponseEntity<CustomerDTO> getCustomerPw(@PathVariable("id") Integer id) {
 
-        Customer customer = customerServices.getByIdById(id);
-        return new ResponseEntity<>(customer, HttpStatus.OK);
+        CustomerDTO customerDTO = customerServices.getByIdById(id);
+        return new ResponseEntity<>(customerDTO, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/customer/login", method = RequestMethod.POST)
-    public CustomerNoPassword getOne(@RequestBody Customer customer) {
-        CustomerNoPassword theOneNoPassword=customerServices.getTheOneNoPassword(customer);
+    public CustomerNoPassword getOne(@RequestBody CustomerDTO customerDTO) {
+        CustomerNoPassword theOneNoPassword=customerServices.getTheOneNoPassword(customerDTO);
         return theOneNoPassword;
     }
 
     @RequestMapping(value = "/customer", method = RequestMethod.POST)
-    public Customer addOne(@RequestBody Customer customer) {
+    public CustomerDTO addOne(@RequestBody CustomerDTO customerDTO) {
         //customerRepository.save(customer);
-        customerServices.saveNewCustomer (customer);
-        return customer;
+        customerServices.saveNewCustomer (customerDTO);
+        return customerDTO;
     }
 
     @RequestMapping(value = "/customer/{id}", method = RequestMethod.PUT)
-    public CustomerNoPassword updateOne(@PathVariable("id") Integer id, @RequestBody Customer c) {
-        CustomerNoPassword c1 = customerRepositoryNoPassword.getById(id);
+    public CustomerNoPassword updateOne(@PathVariable("id") Integer id, @RequestBody CustomerDTO c) {
+        CustomerNoPassword c1 = customerNoPasswordRepository.getById(id);
 
         c1= new CustomerNoPassword(c.getFirstName(), c.getLastName(), c.getEmail(),
                 c.getPhone(), c.getAddress(), c.getPostalCode(), c.getCity());
         c1.setCustomerId(id);
-        customerRepositoryNoPassword.save(c1);
+        customerNoPasswordRepository.save(c1);
         return c1;
     }
 

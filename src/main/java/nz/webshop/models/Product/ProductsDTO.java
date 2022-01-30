@@ -1,17 +1,16 @@
 package nz.webshop.models.Product;
 
-public class Products {
+public class ProductsDTO {
     private Integer productId;
     private Integer quantity;
 
-    public Products(Integer productId, Integer quantity) {
+    public ProductsDTO(Integer productId, Integer quantity) {
         this.productId = productId;
         this.quantity = quantity;
     }
 
-    public Products() {
+    public ProductsDTO() {
     }
-
 
     public Integer getProductId() {
         return productId;

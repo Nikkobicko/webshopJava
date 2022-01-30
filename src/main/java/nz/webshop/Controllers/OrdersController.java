@@ -1,8 +1,8 @@
 package nz.webshop.Controllers;
 
-import nz.webshop.Servers.OrderServices;
+import nz.webshop.Services.OrderServices;
 import nz.webshop.models.Order.Order;
-import nz.webshop.models.Order.OrderFromClient;
+import nz.webshop.models.Order.OrderDTOFromClient;
 import nz.webshop.models.Order.OrderDTOToClient;
 import nz.webshop.models.OrderProduct.OrderProduct;
 import nz.webshop.repositories.*;
@@ -21,7 +21,7 @@ public class OrdersController {
     OrdersRepository ordersRepository;
 
     @Autowired
-    OrdersProductRepository ordersProductMiniRepository;
+    OrdersProductRepository ordersProductRepository;
 
 
     @Autowired
@@ -30,8 +30,8 @@ public class OrdersController {
 
     @RequestMapping(value = "/order", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public void addOne(@RequestBody OrderFromClient orderFromClient) {
-        orderServices.addOneOrder(orderFromClient);
+    public void addOne(@RequestBody OrderDTOFromClient orderDTOFromClient) {
+        orderServices.addOneOrder(orderDTOFromClient);
     }
 
     @RequestMapping(value = "/order", method = RequestMethod.GET)
@@ -41,58 +41,26 @@ public class OrdersController {
 
     @RequestMapping(value = "/orderproduct", method = RequestMethod.GET)
     public List<OrderProduct> getAll1() {
-        return ordersProductMiniRepository.findAll();
+        return ordersProductRepository.findAll();
     }
 
     @RequestMapping(value = "/orderall", method = RequestMethod.GET)
-    //public List<OrderMiniMax> getAll2() {
-        public List<Order> getAll2() {
-        //ArrayList<OrderMiniMax> orderMiniMaxeList = orderServices.getMiniMaxeList();
-       List<Order> orderMiniMaxeList = orderServices.getMiniMaxeList();
-        return orderMiniMaxeList;
+    public List<Order> getAll2() {
+        List<Order> orderMaxeList = orderServices.getOrdersList();
+        return orderMaxeList;
     }
 
     @RequestMapping(value = "/order/customer/{id}", method = RequestMethod.GET)
     public List<OrderDTOToClient> getOrdersByCustomer(@PathVariable("id") Integer id) {
-        List<OrderDTOToClient> orderMiniMaxeListId = orderServices.getMiniMaxeListId(id);
-        return orderMiniMaxeListId;
+        List<OrderDTOToClient> orderMaxeListId = orderServices.getOrderListId(id);
+        return orderMaxeListId;
     }
 
 
     @RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
-  //  public OrderMiniMax getOneOrder(@PathVariable("id") Integer id) {
-        public OrderDTOToClient getOneOrder(@PathVariable("id") Integer id) {
-     //   OrderMiniMax order = orderServices.getMiniMaxeOne(id);
-        OrderDTOToClient order = orderServices.getMiniMaxeOne(id);
+    public OrderDTOToClient getOneOrder(@PathVariable("id") Integer id) {
+        OrderDTOToClient order = orderServices.getOrderOne(id);
         return order;
     }
 
-
-
-     /*   @RequestMapping(value = "/order", method = RequestMethod.POST)
-    public Order addOne (@RequestBody Order order) {
-      List<OrderProduct> orderProducts=new ArrayList<>();
-        List<Products> products= order.getProducts();
-        //if list is not null...
-       for (Products ps:products){
-           OrderProduct orderProduct= new OrderProduct(order.getId(), ps.getProductId(), ps.getQuantity() );
-           orderProducts.add(orderProduct);
-       }
-       ordersProductRepository.save(orderProducts);
-        return order;
-    }*/
-
-
-    //make reducing products in stock
-//ordersProductMiniRepository.save(opm);
-
-    //List<OrderProduct> orderProducts=new ArrayList<>();
-    // List<OrderProduct> products= order.getOrderProduct();
-    //if list is not null...
-
-        /* for (OrderProduct ps:products){
-            OrderProduct orderProduct= new OrderProduct(order.getId(), ps.getProductId(), ps.getQuantity() );
-            orderProducts.add(orderProduct);
-        }*/
-    //  ordersProductRepository.save(products);
 }

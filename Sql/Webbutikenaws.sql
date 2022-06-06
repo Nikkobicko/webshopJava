@@ -41,7 +41,7 @@ CREATE TABLE OrderProduct
   quantity  INT,
   PRIMARY KEY (order_id, product_id),
   FOREIGN KEY (order_id) REFERENCES Orders (order_id),
-  FOREIGN KEY (product_id) REFERENCES Product (product_id)
+  FOREIGN KEY (product_id) REFERENCES product2 (product_id)
 );
 
 CREATE TABLE Category
@@ -55,7 +55,7 @@ CREATE TABLE ProductCategory
   product_id  INT,
   category_id INT,
   PRIMARY KEY (product_id, category_id),
-  FOREIGN KEY (product_id) REFERENCES Product (product_id),
+  FOREIGN KEY (product_id) REFERENCES product2 (product_id),
   FOREIGN KEY (category_id) REFERENCES Category (category_id)
 );
 
@@ -68,17 +68,17 @@ INSERT INTO Customer VALUES (customer_id, 'Ivan', 'Petrov', 'ivan@petrov.se', '1
 
 
 -- Create Product values
-INSERT INTO Product VALUES (product_id, 'Skinny Jeans', '5-pocket low-rise jeans in washed stretch denim with a button fly and skinny legs.',
+INSERT INTO product2 VALUES (product_id, 'Skinny Jeans', '5-pocket low-rise jeans in washed stretch denim with a button fly and skinny legs.',
                             'https://s3.eu-central-1.amazonaws.com/imagesnz/prod1.jpg',
                             330, 250);
-INSERT INTO Product VALUES (product_id, 'Cargojoggers',
+INSERT INTO product2 VALUES (product_id, 'Cargojoggers',
                             'Ett par cargojoggers i stretchig bomullstwill. De har resår med dragsko i midjan. Sidfickor och myntficka. Bakfickor och benfickor med lock och tryckknappar. Formande sömmar på knäna och mudd vid benslut. Fuskgylf',
                             'https://s3.eu-central-1.amazonaws.com/imagesnz/hmgoepprod.jpg',
                             200, 1000);
-INSERT INTO Product VALUES (product_id, 'Chelsea boots', 'Chelsea boots with elastic gores in the sides, cotton canvas linings and insoles and rubber soles. Heel 2.5 cm.',
+INSERT INTO product2 VALUES (product_id, 'Chelsea boots', 'Chelsea boots with elastic gores in the sides, cotton canvas linings and insoles and rubber soles. Heel 2.5 cm.',
                             'https://s3.eu-central-1.amazonaws.com/imagesnz/prod2shoe.jpg',
                             100, 500);
-INSERT INTO Product VALUES (product_id, 'Watch with a leather strap', 'PREMIUM QUALITY. Stainless steel watch with an adjustable leather strap with a metal fastener. Width of strap approx. 2 cm, total length 23 cm, diameter of watch face 3.6 cm.',
+INSERT INTO product2 VALUES (product_id, 'Watch with a leather strap', 'PREMIUM QUALITY. Stainless steel watch with an adjustable leather strap with a metal fastener. Width of strap approx. 2 cm, total length 23 cm, diameter of watch face 3.6 cm.',
                             'https://s3.eu-central-1.amazonaws.com/imagesnz/prod3watch.jpg',
                             400, 200);
 

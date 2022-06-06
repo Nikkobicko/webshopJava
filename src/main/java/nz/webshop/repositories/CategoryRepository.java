@@ -11,4 +11,8 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     public static final String FIND_CATEGORIES = "SELECT category_id, category_name FROM category";
     @Query(value = FIND_CATEGORIES, nativeQuery = true)
     public List<Object[]> findCategories();
+    //Category findByName (String name);
+
+
+    List<Category> findByNameIgnoreCase (String name);
 }

@@ -1,9 +1,13 @@
--- CREATE DATABASE Webbutiken;
+
 DROP DATABASE IF EXISTS webshop;
 CREATE DATABASE webshop;
 USE webshop;
 
-CREATE TABLE customerDTO
+delete from productcategory where product_id > 4;
+delete from product where product_id > 4;
+delete from category where category_id >5;
+
+CREATE TABLE customer
 (
   customer_id INT AUTO_INCREMENT PRIMARY KEY,
   first_name  VARCHAR(50) ,
@@ -15,24 +19,24 @@ CREATE TABLE customerDTO
   city       VARCHAR(50)
 
     );
-ALTER TABLE customerDTO
-    ADD FOREIGN KEY (password) REFERENCES password (customerDTO);
+/*ALTER TABLE customerDTO
+    ADD FOREIGN KEY (password) REFERENCES password (customerDTO);*/
 /*ALTER TABLE customerDTO
     drop foreign key customer_ibfk_1;*/
-ALTER TABLE password
-    ADD FOREIGN KEY (id) REFERENCES customerDTO (password);
-ALTER TABLE customerDTO
-    ADD  password INT;
-ALTER TABLE Customer DROP COLUMN password;
+/*ALTER TABLE password
+    ADD FOREIGN KEY (id) REFERENCES customerDTO (password);*/
+/*ALTER TABLE customerDTO
+    ADD  password INT;*/
+# ALTER TABLE Customer DROP COLUMN password;
 CREATE TABLE password
 (
    id INT AUTO_INCREMENT PRIMARY KEY,
    password VARCHAR(50),
-   customerDTO int,
-       FOREIGN KEY (customerDTO) REFERENCES customerDTO (customer_id)
+   customer int,
+       FOREIGN KEY (customer) REFERENCES customer (customer_id)
 
 );
-drop table password;
+#drop table password;
 
 CREATE TABLE product
 (
@@ -49,7 +53,7 @@ CREATE TABLE orders
   order_id           INT AUTO_INCREMENT PRIMARY KEY,
   customer_id INT,
   datum  VARCHAR(500),
- FOREIGN KEY (customer_id) REFERENCES customerDTO (customer_id)
+ FOREIGN KEY (customer_id) REFERENCES customer (customer_id)
 );
 
 CREATE TABLE orderproduct
@@ -80,11 +84,11 @@ CREATE TABLE productcategory
 --
 
 -- Create Custumer values
-INSERT INTO customerDTO VALUES (customer_id, 'Sven', 'Svenson', 'sven@svenson.se', 'a123456', '3426442', 'Streatgatan, 24', '17125', 'Stockholm');
-INSERT INTO customerDTO VALUES (customer_id, 'Thor', 'Odinson', 'thor@odinson.se', '123457', '2345245', 'Upsalagatan, 14', '24342', 'Uppsala');
-INSERT INTO customerDTO VALUES (customer_id, 'Ivan', 'Petrov', 'ivan@petrov.se', '123458', '5543452', 'Moscowgatan, 100', '434343', 'Moscow');
+INSERT INTO customer VALUES (customer_id, 'Sven', 'Svenson', 'sven@svenson.se', '3426442', 'Streatgatan, 24', '17125', 'Stockholm');
+INSERT INTO customer VALUES (customer_id, 'Thor', 'Odinson', 'thor@odinson.se',  '2345245', 'Upsalagatan, 14', '24342', 'Uppsala');
+INSERT INTO customer VALUES (customer_id, 'Ivan', 'Petrov', 'ivan@petrov.se',  '5543452', 'Moscowgatan, 100', '434343', 'Moscow');
 
-INSERT into password values ( id, 'qq6',  4);
+#INSERT into password values ( id, 'qq6',  4);
 -- Create Product values
 INSERT INTO product VALUES (product_id, 'Skinny Jeans', '5-pocket low-rise jeans in washed stretch denim with a button fly and skinny legs.',
                             'prod1.jpg',

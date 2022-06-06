@@ -17,13 +17,14 @@ public class CategoryController {
     CategoryRepository categoryRepository;
 
 
-
     @GetMapping(value = "")
-    public List<Category> getAll() {  return categoryRepository.findAll();  }
+    public List<Category> getAll() {
+        return categoryRepository.findAll();
+    }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public ResponseEntity<Category> getCategory(@PathVariable("id") Integer id) {
         Category category = categoryRepository.getById(id);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
-    }
+}

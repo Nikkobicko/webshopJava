@@ -3,9 +3,11 @@ DROP DATABASE IF EXISTS webshop;
 CREATE DATABASE webshop;
 USE webshop;
 
-delete from productcategory where product_id > 4;
-delete from product where product_id > 4;
-delete from category where category_id >5;
+#delete from productcategory where product_id > 4;
+#delete from product where product_id > 4;
+#delete from category where category_id >5;
+#ALTER TABLE category MODIFY category_id INT auto_increment primary key;
+#ALTER TABLE category ADD CONSTRAINT  PRIMARY KEY (category_id);
 
 CREATE TABLE customer
 (
@@ -129,3 +131,22 @@ INSERT INTO orders VALUES (order_id, 1, '2017-02-08 17:23:17');
 INSERT INTO orderproduct VALUES (1, 1,  2);
 INSERT INTO orderproduct VALUES (1, 2,  1);
 INSERT INTO orderproduct VALUES (1, 3,  4);
+
+INSERT INTO product VALUES (product_id, 'Overshirt green linen', 'Overshirt in 100% linen. Classic shirt jacket for men with pockets on the chest and buttoning at the front..',
+                            '652255_l.jpg',
+                            330, 250);
+INSERT INTO product VALUES (product_id, 'TOTEME SIGNATURE COTTON SHIRT WHITE', 'White shirt in crisp cotton quality from Totême. Signature Cotton Shirt has a boxy fit and an oversized silhouette. The shirt features a classic collar and Totême''s characteristic monogram subtly embroidered',
+                            'toteme-signature-cotton-shirt-white.jpeg',
+                            330, 250);
+INSERT INTO product VALUES (product_id, 'Stylish sneakers, anthracite', 'Stylish sneakers.',
+                            'shoe2.jpg',
+                            330, 250);
+
+
+INSERT INTO category VALUES (17, 'Shirt');
+
+
+INSERT INTO productcategory VALUES (7, 4);
+INSERT INTO productcategory VALUES (5, 17);
+INSERT INTO productcategory VALUES (6, 17);
+
